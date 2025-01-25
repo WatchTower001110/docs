@@ -6,7 +6,6 @@ allowTitleToDifferFromFilename: true
 versions:
   fpt: '*'
   ghes: '*'
-  ghae: '*'
   ghec: '*'
 topics:
   - Advanced Security
@@ -17,12 +16,10 @@ redirect_from:
   - /code-security/codeql-cli/codeql-cli-reference/sarif-output
 ---
 
-{% data reusables.codeql-cli.codeql-site-migration-note %}
-
 ## About SARIF output
 
 SARIF is designed to represent the output of a broad range of static analysis tools, and there are many features in the SARIF specification that are
-considered "optional". This document details the output produced when using the format type `sarifv2.1.0`, which corresponds to the SARIF v2.1.0.csd1 specification. For more information on selecting a file format for your analysis results, see "[AUTOTITLE](/code-security/codeql-cli/codeql-cli-manual/database-analyze)."
+considered "optional". This document details the output produced when using the format type `sarifv2.1.0`, which corresponds to the SARIF v2.1.0.csd1 specification. For more information on selecting a file format for your analysis results, see [AUTOTITLE](/code-security/codeql-cli/codeql-cli-manual/database-analyze).
 
 ## SARIF specification and schema
 
@@ -32,7 +29,7 @@ This article is intended to be read alongside the detailed SARIF specification. 
 
 ### Changes between versions
 
-| CodeQL version | Format type | Changes |
+| {% data variables.product.prodname_codeql %} version | Format type | Changes |
 |----------------|-------------|---------|
 | 2.0.0 | `sarifv2.1.0` | First version of this format. |
 
@@ -40,9 +37,9 @@ This article is intended to be read alongside the detailed SARIF specification. 
 
 The output produced for a given specific format type (for example, `sarifv2.1.0`) may change in future {% data variables.product.prodname_codeql %} releases. We will endeavor to maintain backwards compatibility with consumers of the generated SARIF by ensuring that:
 
-- Fields that are marked as always being generated will never be removed.
+* Fields that are marked as always being generated will never be removed.
 
-- For fields that are marked as not always being generated, the circumstances under which the fields are generated may change. Consumers of the {% data variables.product.prodname_codeql %} SARIF output should be robust to the presence or absence of these fields.
+* For fields that are marked as not always being generated, the circumstances under which the fields are generated may change. Consumers of the {% data variables.product.prodname_codeql %} SARIF output should be robust to the presence or absence of these fields.
 
 New output fields may be added in future releases under the same format type–these are not considered to break backwards compatibility, and consumers should be robust to the presence of newly added fields.
 
@@ -65,7 +62,6 @@ This details each SARIF component that may be generated, along with any specific
 | JSON property name| Always generated?| Notes|
 |-------------------|------------------------|---------|
 | `tool`| {% octicon "check" aria-label="Always" %}| None |
-| `originalUriBaseIds`| {% octicon "check" aria-label="Always" %}| A dictionary of `uriBaseIds` to artifactLocations representing the original locations on the analysis machine. At a minimum, this will contain the `%SRCROOT%` `uriBaseId`, which represents the root location on the analysis machine of the source code for the analyzed project. Each `artifactLocation` will contain the `uri` and `description` properties.|
 | `artifacts`| {% octicon "check" aria-label="Always" %}| An array containing at least one artifact object for every file referenced in a result.|
 | `results`| {% octicon "check" aria-label="Always" %}| None |
 | `newLineSequences`| {% octicon "check" aria-label="Always" %}| None |
@@ -117,7 +113,7 @@ This details each SARIF component that may be generated, along with any specific
 
 ### `result` object
 
-The composition of the results is dependent on the options provided to CodeQL. By default, the results are grouped by unique message format string and primary location. Thus, two results that occur at the same location with the same underlying message, will appear as a single result in the output. This behavior can be disabled by using the flag `--ungroup-results`, in which case no results are grouped.
+The composition of the results is dependent on the options provided to {% data variables.product.prodname_codeql %}. By default, the results are grouped by unique message format string and primary location. Thus, two results that occur at the same location with the same underlying message, will appear as a single result in the output. This behavior can be disabled by using the flag `--ungroup-results`, in which case no results are grouped.
 
 | JSON property name    | Always generated?| Notes|
 |-----------------------|--------------------|------|
@@ -150,9 +146,9 @@ The composition of the results is dependent on the options provided to CodeQL. B
 
 There are two types of `region` object produced by {% data variables.product.prodname_codeql %}:
 
-- Line/column offset regions
+* Line/column offset regions
 
-- Character offset and length regions
+* Character offset and length regions
 
 Any region produced by {% data variables.product.prodname_codeql %} may be specified in either format, and consumers should robustly handle either type.
 
