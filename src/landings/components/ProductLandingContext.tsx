@@ -15,7 +15,6 @@ export type FeaturedLink = {
   href: string
   intro?: string
   authors?: Array<string>
-  hideIntro?: boolean
   date?: string
   fullTitle?: string
 }
@@ -29,6 +28,14 @@ export type CodeExample = {
 export type Product = {
   title: string
   href: string
+}
+
+type Release = {
+  version: string
+  firstPreviousRelease: string
+  secondPreviousRelease: string
+  patches: Array<{ date: string; version: string }>
+  isReleaseCandidate: boolean
 }
 
 export type ProductLandingContextT = {
@@ -55,12 +62,7 @@ export type ProductLandingContextT = {
   whatsNewChangelog?: Array<{ href: string; title: string; date: string }>
   tocItems: Array<TocItem>
   hasGuidesPage: boolean
-  ghesReleases: Array<{
-    version: string
-    firstPreviousRelease: string
-    secondPreviousRelease: string
-    patches: Array<{ date: string; version: string }>
-  }>
+  ghesReleases: Array<Release>
 }
 
 export const ProductLandingContext = createContext<ProductLandingContextT | null>(null)
@@ -108,6 +110,12 @@ export const getProductLandingContextFromRequest = async (
   const title = await page.renderProp('title', req.context, { textOnly: true })
   const shortTitle = (await page.renderProp('shortTitle', req.context, { textOnly: true })) || null
 
+  // This props is displayed on the product landing page as "Supported
+  // releases". So we omit, if there is one, the release candidate.
+  const ghesReleases = (req.context.ghesReleases || []).filter((release: Release) => {
+    return !release.isReleaseCandidate
+  })
+
   return {
     title,
     shortTitle,
@@ -122,8 +130,7 @@ export const getProductLandingContextFromRequest = async (
     whatsNewChangelog: req.context.whatsNewChangelog || [],
     changelogUrl: req.context.changelogUrl || [],
     productCommunityExamples: req.context.productCommunityExamples || [],
-    ghesReleases: req.context.ghesReleases || [],
-
+    ghesReleases,
     productUserExamples: (req.context.productUserExamples || []).map(
       ({ user, description }: any) => ({
         username: user,
@@ -154,7 +161,6 @@ export const getProductLandingContextFromRequest = async (
               : '',
           articles: links.map((link: any) => {
             return {
-              hideIntro: key === 'popular',
               href: link.href,
               title: link.title,
               intro: link.intro || null,

@@ -1,12 +1,12 @@
 ---
 title: Configuring the dependency graph
 intro: You can allow users to identify their projects' dependencies by enabling the dependency graph.
+permissions: '{% data reusables.permissions.dependency-graph %}'
 redirect_from:
   - /code-security/supply-chain-security/understanding-your-software-supply-chain/about-the-dependency-graph#enabling-the-dependency-graph
 versions:
   fpt: '*'
   ghes: '*'
-  ghae: '*'
   ghec: '*'
 type: how_to
 topics:
@@ -19,26 +19,27 @@ shortTitle: Configure dependency graph
 
 {% data reusables.dependabot.about-the-dependency-graph %}
 
-For more information, see "[AUTOTITLE](/code-security/supply-chain-security/understanding-your-software-supply-chain/about-the-dependency-graph)."
+For more information, see [AUTOTITLE](/code-security/supply-chain-security/understanding-your-software-supply-chain/about-the-dependency-graph).
 
-{% ifversion fpt or ghec %}
+{% ifversion ghes %}
 
-## About configuring the dependency graph
+## Enabling the dependency graph
 
-To generate a dependency graph, {% data variables.product.product_name %} needs read-only access to the dependency manifest and lock files for a repository. The dependency graph is automatically generated for all public repositories and you can choose to enable it for private repositories. For more information on viewing the dependency graph, see "[AUTOTITLE](/code-security/supply-chain-security/understanding-your-software-supply-chain/exploring-the-dependencies-of-a-repository)."
-
-{% data reusables.dependency-submission.dependency-submission-link %}
-
-You can also enable the dependency graph for multiple repositories in an organization at the same time. For more information, see "[AUTOTITLE](/code-security/getting-started/securing-your-organization)."
+{% data reusables.dependabot.ghes-enabling-dependency-graph %}
 
 {% endif %}
 
-{% ifversion ghes %} ## Enabling the dependency graph
-{% data reusables.dependabot.ghes-ghae-enabling-dependency-graph %}{% endif %}{% ifversion fpt or ghec %}
+{% ifversion fpt or ghec %}
 
-### Enabling and disabling the dependency graph for a private repository
+## Configuring the dependency graph
 
-{% data reusables.dependabot.enabling-disabling-dependency-graph-private-repo %}
+To generate a dependency graph, {% data variables.product.github %} needs read-only access to the dependency manifest and lock files for a repository. The dependency graph is automatically generated for all public repositories and you can choose to enable it for private {% ifversion ghec %}and internal {% endif %}repositories, and public forks. For more information on viewing the dependency graph, see [AUTOTITLE](/code-security/supply-chain-security/understanding-your-software-supply-chain/exploring-the-dependencies-of-a-repository).
+
+{% data reusables.dependency-submission.dependency-submission-link %}
+
+### Enabling and disabling the dependency graph
+
+{% data reusables.dependabot.enabling-disabling-dependency-graph-private-repo-public-fork %}
 
 {% endif %}
 
@@ -50,6 +51,9 @@ When the dependency graph is first enabled, any manifest and lock files for supp
 
 ## Further reading
 
-{% ifversion ghec %}- "[AUTOTITLE](/organizations/collaborating-with-groups-in-organizations/viewing-insights-for-your-organization)"{% endif %}
-- "[AUTOTITLE](/code-security/dependabot/dependabot-alerts/viewing-and-updating-dependabot-alerts)"
-- "[AUTOTITLE](/code-security/dependabot/working-with-dependabot/troubleshooting-the-detection-of-vulnerable-dependencies)"
+{%- ifversion maven-transitive-dependencies %}
+* [AUTOTITLE](/code-security/supply-chain-security/understanding-your-software-supply-chain/configuring-automatic-dependency-submission-for-your-repository){%- endif %}
+{%- ifversion ghec %}
+* [AUTOTITLE](/organizations/collaborating-with-groups-in-organizations/viewing-insights-for-dependencies-in-your-organization){%- endif %}
+* [AUTOTITLE](/code-security/dependabot/dependabot-alerts/viewing-and-updating-dependabot-alerts)
+* [AUTOTITLE](/code-security/dependabot/troubleshooting-dependabot/troubleshooting-the-detection-of-vulnerable-dependencies)

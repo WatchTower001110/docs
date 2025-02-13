@@ -1,7 +1,8 @@
-import { describe } from '@jest/globals'
 import { readFileSync } from 'fs'
 
-import { allVersions } from '../../../lib/all-versions.js'
+import { describe, expect, test } from 'vitest'
+
+import { allVersions } from '#src/versions/lib/all-versions.js'
 import {
   getGraphqlSchema,
   getGraphqlChangelog,

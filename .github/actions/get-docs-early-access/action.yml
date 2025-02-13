@@ -16,10 +16,10 @@ runs:
         BRANCH_NAME: ${{ github.head_ref || github.ref_name }}
         GITHUB_TOKEN: ${{ inputs.token }}
       shell: bash
-      run: node src/early-access/scripts/what-docs-early-access-branch.js
+      run: npm run what-docs-early-access-branch
 
     - name: Clone
-      uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab
+      uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
       with:
         repository: github/docs-early-access
         token: ${{ inputs.token }}
